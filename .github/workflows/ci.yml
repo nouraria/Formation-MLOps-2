@@ -4,6 +4,7 @@ on:
   pull_request:
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -27,5 +28,12 @@ jobs:
         run: |
           python -m pytest tests/test_unit
           behave tests/test_functional/features
-      # Add behave command
+
+  qualite :
+    runs-on: ubuntu-latest
+    steps:
+      - name: qualite
+        run : |
+          python -m pytest --cov=formation_indus_ds_avancee/ tests/test_unit/ -vv -p no:warnings
+          # Add behave command
 
