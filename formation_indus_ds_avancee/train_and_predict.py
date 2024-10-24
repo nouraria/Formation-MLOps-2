@@ -4,7 +4,7 @@ import time
 import joblib
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-
+import datetime
 
 def train_model_with_io(features_path: str, model_registry_folder: str) -> None:
     features = pd.read_parquet(features_path)
@@ -16,9 +16,11 @@ def train_model(features: pd.DataFrame, model_registry_folder: str) -> None:
     target = 'Ba_avg'
     X = features.drop(columns=[target])
     y = features[target]
+    date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     model = RandomForestRegressor(n_estimators=1, max_depth=10, n_jobs=1)
     model.fit(X, y)
-    joblib.dump(model, os.path.join(model_registry_folder, 'model.joblib'))
+
+    joblib.dump(model, os.path.join(model_registry_folder, f'model_{date}.joblib'))
 
 
 def predict_with_io(features_path: str, model_path: str, predictions_folder: str) -> None:
